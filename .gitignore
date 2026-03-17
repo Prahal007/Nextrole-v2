@@ -19,3 +19,5 @@ __pycache__/
 # General
 .DS_Store
 *.log
+.env
+*.rtf
