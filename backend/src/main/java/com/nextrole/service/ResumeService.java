@@ -4,7 +4,7 @@ import com.nextrole.entity.Resume;
 import com.nextrole.repository.ResumeRepository;
 import com.nextrole.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,8 +22,11 @@ public class ResumeService {
     public Resume upload(MultipartFile file, String email) {
         var user = userRepository.findByEmail(email).orElseThrow();
         String content;
-        try (PDDocument doc = PDDocument.load(file.getInputStream())) {
-            content = new PDFTextStripper().getText(doc);
+        try {
+            byte[] bytes = file.getBytes();
+            try (var doc = Loader.loadPDF(bytes)) {
+                content = new PDFTextStripper().getText(doc);
+            }
         } catch (IOException e) {
             throw new RuntimeException("Failed to parse PDF", e);
         }

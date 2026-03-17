@@ -7,7 +7,7 @@ import { uploadResume } from "@/lib/api";
 import { Button } from "@/components/ui/Button";
 
 interface Props {
-  onUploaded: (resume: { id: string; filename: string }) => void;
+  onUploaded: (resume: { id: string; filename: string; createdAt?: string }) => void;
 }
 
 export function DropZone({ onUploaded }: Props) {

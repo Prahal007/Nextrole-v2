@@ -12,7 +12,7 @@ export interface AuthResponse {
 export interface Resume {
   id: string;
   filename: string;
-  createdAt: string;
+  createdAt?: string;
 }
 
 export interface OptimizationJob {
