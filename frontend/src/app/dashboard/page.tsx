@@ -4,13 +4,14 @@ import { useRouter } from "next/navigation";
 import { getToken } from "@/lib/auth";
 import { listResumes, optimizeResume } from "@/lib/api";
 import { usePollJob } from "@/hooks/usePollJob";
+import { useExportPdf } from "@/hooks/useExportPdf";
 import { Navbar } from "@/components/layout/Navbar";
 import { DropZone } from "@/components/resume/DropZone";
 import { AtsScore } from "@/components/resume/AtsScore";
 import { Button } from "@/components/ui/Button";
 import { StatusBadge } from "@/components/ui/Badge";
 import type { Resume, OptimizationJob } from "@/types";
-import { FileText, Sparkles, ChevronDown, ChevronUp } from "lucide-react";
+import { FileText, Sparkles, ChevronDown, ChevronUp, Download } from "lucide-react";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -23,6 +24,7 @@ export default function DashboardPage() {
   const [error, setError] = useState("");
 
   const job = usePollJob(jobId);
+  const { exportPdf } = useExportPdf();
 
   useEffect(() => {
     if (!getToken()) { router.push("/auth/login"); return; }
@@ -117,8 +119,14 @@ export default function DashboardPage() {
                   <span className="text-sm font-medium text-white">Optimization result</span>
                   <StatusBadge status={job.status} />
                 </div>
-                {job.atsScore != null && <AtsScore score={job.atsScore} />}
+                {job.status === "COMPLETED" && job.result && selected && (
+                  <Button variant="ghost" onClick={() => exportPdf(job, selected.filename)} className="gap-1.5">
+                    <Download size={14} />
+                    Download PDF
+                  </Button>
+                )}
               </div>
+              {job.atsScore != null && <AtsScore score={job.atsScore} />}
 
               {job.status === "PROCESSING" && (
                 <div className="flex items-center gap-2 text-sm text-slate-400">
