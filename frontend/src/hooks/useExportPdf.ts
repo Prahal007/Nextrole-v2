@@ -25,7 +25,16 @@ export function useExportPdf() {
     doc.setFontSize(11);
     doc.setTextColor(30, 30, 30);
 
-    const lines = job.result.optimized_resume.split("\n");
+    const cleaned = job.result.optimized_resume
+    .replace(/%[a-zA-ZªÀ-ÿ]/g, "•")
+  .replace(/[^\x00-\x7F]/g, (c) => {
+    const map: Record<string, string> = {
+      "•": "•", "–": "-", "—": "-", "\u2019": "'", "\u2018": "'",
+      "\u201c": '"', "\u201d": '"', "\u00e9": "e", "\u00e0": "a",
+    };
+    return map[c] ?? "";
+  });
+const lines = cleaned.split("\n");
     for (const line of lines) {
       const wrapped = doc.splitTextToSize(line.trim() || " ", maxWidth);
       for (const wl of wrapped) {
