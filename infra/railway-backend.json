@@ -1,0 +1,20 @@
+{
+  "build": {
+    "builder": "DOCKERFILE",
+    "dockerfilePath": "backend/Dockerfile"
+  },
+  "deploy": {
+    "startCommand": "java -jar app.jar",
+    "healthcheckPath": "/actuator/health",
+    "healthcheckTimeout": 60
+  },
+  "envVars": {
+    "SPRING_DATASOURCE_URL": "${{Postgres.DATABASE_URL}}",
+    "SPRING_DATASOURCE_USERNAME": "${{Postgres.PGUSER}}",
+    "SPRING_DATASOURCE_PASSWORD": "${{Postgres.PGPASSWORD}}",
+    "REDIS_HOST": "${{Redis.REDIS_HOST}}",
+    "REDIS_PORT": "${{Redis.REDIS_PORT}}",
+    "AI_SERVICE_URL": "${{ai-service.RAILWAY_PRIVATE_URL}}",
+    "JWT_SECRET": "${{JWT_SECRET}}"
+  }
+}

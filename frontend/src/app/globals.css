@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg: #0a0a0f;
+  --color-surface: #13131a;
+  --color-surface-2: #1c1c26;
+  --color-border: rgba(255,255,255,0.07);
+  --color-brand: #6366f1;
+  --color-brand-light: #818cf8;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  background: var(--color-bg);
+  color: #e2e8f0;
+  font-family: system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Glass card utility */
+.glass {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+}

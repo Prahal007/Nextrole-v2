@@ -1,0 +1,13 @@
+{
+  "build": {
+    "builder": "DOCKERFILE",
+    "dockerfilePath": "frontend/Dockerfile",
+    "buildArgs": {
+      "NEXT_PUBLIC_API_URL": "${{backend.RAILWAY_PUBLIC_URL}}"
+    }
+  },
+  "deploy": {
+    "healthcheckPath": "/",
+    "healthcheckTimeout": 30
+  }
+}
