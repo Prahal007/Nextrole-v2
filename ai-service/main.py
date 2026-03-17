@@ -1,9 +1,9 @@
 from app.routers import optimize
-from fastapi import FastAPI
+from fastapi import FastAPI, status
 
 app = FastAPI(title="NextRole AI Service", version="1.0.0")
 app.include_router(optimize.router)
 
 @app.get("/health")
 async def health():
-    return {"status": "ok"}
+    return {"status": "ok"}, status.HTTP_200_OK
